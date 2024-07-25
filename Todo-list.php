@@ -1,4 +1,6 @@
-
+<?php
+            session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,15 +34,15 @@
                 padding: 10px;
                 border: 1px solid black;
                 border-radius: 3px;
-                width: 100%;
+                width: 80%;
             }
 
             button {
                 padding: 10px 20px;
                 background-color: green;
                 color: yellow;
-                border: none;
-                border-radius: 3px;
+                border: 1px solid black;
+                border-radius: 2px;
                 cursor: pointer;
             }
 
@@ -67,18 +69,23 @@
             <input type="text" name="task" placeholder="Add a task">
             <h2 id="Alert"></h2>
             <ul id="list-items" class="list-items"></ul>
-            <button type="Add a task">Add a task</button></br>
+            <button type="submit" name= "add_task">Add a task</button></br>
         </form>
-        <javascript></javascript>
-        <?php
-         $_SERVER["REQUEST_METHOD"] == "POST" ;
-         $add_a_task = $_POST['task'];
-         $input = array($add_a_task);
-         $message[]= $input;
-         foreach($message as $input){
-             echo $input[0];
-         }
-?>  
+      <ul>
+        <?php 
+        foreach ($_SESSION['tasks'] as $index => $task): ?>
+            <li>
+                <?php echo $index; ?>
+                <?php echo $task; ?>
+                <form method="POST"  action="add_task.php">
+                    <input type="hidden" name="task_index" value="<?php echo $index; ?>">
+                    <input type="text" name="edited_task" value="<?php echo $task; ?>">
+                    <button type="submit" name="edit_task" value="<?php echo $index; ?>">Edit</button>
+                    <button type="submit" name="delete_task" value="<?php echo $index; ?>">Delete</button>
+                </form>
+            </li>
+        <?php endforeach; ?>
+      </ul>
         <ul id="task_list">
             </ul>
     </div>
